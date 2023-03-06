@@ -48,12 +48,12 @@ export default resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        // TODO: figure out the authors array. something to do with input type
-        saveBook: async (parent, { userId, authors: [], description, bookId, image, link, title }, context) => {
+        // TODO: figure out the authors array. something to do with input type, currently within the args field
+        saveBook: async (parent, args, context) => {
             if (context.user) {
                 return User.findOneAndUpdate(
-                    { _id: userId },
-                    { $addToSet: { savedBooks: [authors], description, bookId, image, link, title }},
+                    { _id: context.user._id },
+                    { $addToSet: { savedBooks: args }},
                     {
                         new: true,
                         runValidators: true
