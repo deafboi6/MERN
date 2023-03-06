@@ -49,11 +49,11 @@ export default resolvers = {
             return { token, user };
         },
         // TODO: figure out the authors array. something to do with input type
-        addBook: async (parent, { userId, authors: [], description, bookId, image, link, title }, context) => {
+        saveBook: async (parent, { userId, authors: [], description, bookId, image, link, title }, context) => {
             if (context.user) {
                 return User.findOneAndUpdate(
                     { _id: userId },
-                    { $addToSet: { savedBooks: book }},
+                    { $addToSet: { savedBooks: [authors], description, bookId, image, link, title }},
                     {
                         new: true,
                         runValidators: true
