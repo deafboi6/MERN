@@ -1,8 +1,9 @@
 import { User } from "../models";
 import { signToken } from "../utils/auth";
 import { GraphQLError } from "graphql";
+//TODO:
 
-const resolvers = {
+export default resolvers = {
     Query: {
         me: async (parent, { userId }) => {
             return User.findOne({ _id: userId });
@@ -41,6 +42,40 @@ const resolvers = {
             return { token, user };
         },
         // TODO: figure out the authors array. something to do with input type
-        addBook: async (parent, { authors: [], description, bookId, image, link, title })
+        addBook: async (parent, { userId, authors: [], description, bookId, image, link, title }, context) => {
+            if (context.user) {
+                return User.findOneAndUpdate(
+                    { _id: userId },
+                    { $addToSet: { savedBooks: book }},
+                    {
+                        new: true,
+                        runValidators: true
+                    }
+                );
+            };
+
+            throw new GraphQLError("You need to be logged in!", {
+                extensions: {
+                    code: "UNAUTHENTICATED",
+                },
+            });
+        },
+        removeBook: async (parent, { book }, context) => {
+            if (context.user) {
+                return User.findOneAndUpdate(
+                    { _id: context.user._id},
+                    { $pull: { savedBooks: book } },
+                    { new: true }
+                );
+            };
+
+            throw new GraphQLError("You need to be logged in!", {
+                extensions: {
+                    code: "UNAUTHENTICATED",
+                },
+            });
+        }
     }
-}
+};
+
+// module.exports = resolvers;

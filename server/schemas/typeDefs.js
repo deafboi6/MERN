@@ -1,7 +1,7 @@
 // TODO: figure out the Book API ID
 // TODO: determine if saveBook mutation needs to have the nullable fields in the ()
 // TODO: determine if removeBook mutation needs userId
-const typeDefs = `#graphql
+export default typeDefs = `#graphql
     type User {
         _id: ID
         username: String!
@@ -37,4 +37,4 @@ const typeDefs = `#graphql
     }
     `;
     
-    module.exports = typeDefs;
+    // module.exports = typeDefs;
