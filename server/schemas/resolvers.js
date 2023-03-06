@@ -5,8 +5,15 @@ import { GraphQLError } from "graphql";
 
 export default resolvers = {
     Query: {
-        me: async (parent, { userId }) => {
-            return User.findOne({ _id: userId });
+        me: async (parent, args, context) => {
+            if (context.user) {
+                return User.findOne({ _id: userId });
+            };
+            throw new GraphQLError("You need to be logged in!", {
+                extensions: {
+                    code: "UNAUTHENTICATED",
+                },
+            });
         },
     },
 
