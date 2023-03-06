@@ -1,13 +1,13 @@
-import { User } from "../models";
-import { signToken } from "../utils/auth";
-import { GraphQLError } from "graphql";
-//TODO:
+const { User } = require("../models");
+const { signToken } = require("../utils/auth");
+const { GraphQLError } = require("graphql");
 
-export default resolvers = {
+//TODO:
+const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({ _id: userId });
+                return User.findOne({ _id: context.user._id });
             };
             throw new GraphQLError("You need to be logged in!", {
                 extensions: {
@@ -49,11 +49,11 @@ export default resolvers = {
             return { token, user };
         },
         // TODO: figure out the authors array. something to do with input type, currently within the args field
-        saveBook: async (parent, args, context) => {
+        saveBook: async (parent, { book }, context) => {
             if (context.user) {
                 return User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: args }},
+                    { $addToSet: { savedBooks: { book } } },
                     {
                         new: true,
                         runValidators: true
@@ -85,4 +85,5 @@ export default resolvers = {
     }
 };
 
-// module.exports = resolvers;
+
+module.exports = resolvers;
