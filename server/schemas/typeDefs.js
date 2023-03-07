@@ -1,6 +1,3 @@
-// TODO: figure out the Book API ID
-// TODO: determine if saveBook mutation needs to have the nullable fields in the ()
-// TODO: determine if removeBook/saveBook mutations needs userId
 const typeDefs = `#graphql
     type User {
         _id: ID
@@ -32,8 +29,8 @@ const typeDefs = `#graphql
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
-        saveBook(bookId: ID!, authors: [String], description: String!, title: String!, image: String, link: String): User
-        removeBook(bookId: ID!): User
+        saveBook(bookId: String!, authors: [String], description: String!, title: String!, image: String, link: String): User
+        removeBook(bookId: String!): User
     }
     `;
     

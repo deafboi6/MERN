@@ -48,7 +48,6 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        // TODO: figure out the authors array. something to do with input type, currently within the args field
         saveBook: async (parent, { book }, context) => {
             if (context.user) {
                 return User.findOneAndUpdate(
