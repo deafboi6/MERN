@@ -2,7 +2,6 @@ const { User } = require("../models");
 const { signToken } = require("../utils/auth");
 const { GraphQLError } = require("graphql");
 
-//TODO:
 const resolvers = {
     Query: {
         me: async (parent, args, context) => {
@@ -18,8 +17,8 @@ const resolvers = {
     },
 
     Mutation: {
-        addUser: async (parent, { name, email, password }) => {
-            const user = await User.create({ name, email, password});
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
             const token = signToken(user);
 
             return { token, user };
@@ -35,7 +34,7 @@ const resolvers = {
                 });
             };
 
-            const correctPw = await User.isCorrectPassword(password);
+            const correctPw = await user.isCorrectPassword(password);
 
             if (!correctPw) {
                 throw new GraphQLError("Incorrect password!", {
