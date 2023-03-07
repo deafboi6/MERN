@@ -1,6 +1,6 @@
 // TODO: figure out the Book API ID
 // TODO: determine if saveBook mutation needs to have the nullable fields in the ()
-// TODO: determine if removeBook mutation needs userId
+// TODO: determine if removeBook/saveBook mutations needs userId
 const typeDefs = `#graphql
     type User {
         _id: ID
